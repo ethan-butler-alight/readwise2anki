@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+requests = "*"
+python-decouple = "*"
+aqt = {extras = ["qt6"], version = "*"}
+
+[dev-packages]
+pylint = "*"
+black = "*"
+mypy = "*"
+types-requests = "*"
+
+[requires]
+python_version = "3.11"
