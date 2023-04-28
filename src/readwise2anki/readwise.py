@@ -5,6 +5,8 @@ import pprint
 import requests
 from decouple import config  # type: ignore
 
+# TODO: Implement API key handling via an addon config instead of using decouple. See: https://addon-docs.ankiweb.net/addon-config.html
+
 
 class Readwise:
     def __init__(self):

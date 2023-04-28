@@ -15,6 +15,9 @@ class Highlights:
         self.highlights = None
 
 
+# This is a reference I found useful for PyQt6: https://www.pythonguis.com/pyqt6-tutorial/
+
+
 class AddonGUI(QMainWindow):
     """Class that acts as the main GUI for the addon"""
 
@@ -26,10 +29,24 @@ class AddonGUI(QMainWindow):
         self.setWindowTitle("Import from Readwise")
 
         # Set the window's dimensions
-        self.setMinimumWidth(500)
-        self.setMinimumHeight(500)
+        self.setMinimumWidth(750)
+        self.setMinimumHeight(750)
 
-        # Display the GUI
+        # Create a grid layout
+        grid = QGridLayout()
+
+        # Label to display the highlight
+        highlight = QLabel("Test text")
+        grid.addWidget(highlight, 0, 0)
+
+        # Create a container to hold the layout
+        container = QWidget()
+        container.setLayout(grid)
+
+        # Place the container in the center of the window
+        self.setCentralWidget(container)
+
+        # Display the window
         self.show()
 
         # Focus the window
