@@ -1,5 +1,6 @@
 # import the main window object (mw) from aqt
 from aqt import mw, AnkiQt
+from aqt.addcards import AddCards
 
 # import the "show info" tool from utils.py
 from aqt.utils import showInfo, qconnect
@@ -18,9 +19,10 @@ class Highlights:
 # This is a reference I found useful for PyQt6: https://www.pythonguis.com/pyqt6-tutorial/
 
 
-class AddonGUI(QMainWindow):
+class GUIFromScratch(QMainWindow):
     """Class that acts as the main GUI for the addon"""
 
+    # Currently this is kept here as reference. Attempting to work on GUIFromBase
     def __init__(self, mw: AnkiQt) -> None:
         # Calls the QWidget constructor and pass the main window as the parent
         QWidget.__init__(self, mw)
@@ -73,12 +75,39 @@ class AddonGUI(QMainWindow):
         self.setFocus()
 
 
+class GUIFromBase(AddCards):
+    """Class that acts as the main GUI for the addon that adds to the builtin AddCards window"""
+
+    # TODO: Try to position the new UI elements above the built-in elements
+
+    def __init__(self, mw: AnkiQt) -> None:
+        # Call the AddCards constructor which creates the normal window responsible for adding new cards
+        super().__init__(mw)
+
+        # Get the current layout from the AddCards window
+        layout = self.layout()
+
+        # Label to display the current highlight you are on
+        highlight_num = QLabel("1 / 20")
+        layout.addWidget(highlight_num)
+
+        # Update the window's title
+        self.setWindowTitle("Import from Readwise")
+
+        # Set the window's dimensions
+        self.setMinimumWidth(750)
+        self.setMinimumHeight(750)
+
+        # Show the addon window
+        self.show()
+
+
 def menu() -> None:
     """Display the menu to import from Readwise"""
     # sel = readwise.fetch_from_export_api()
 
     # showInfo(data[0][0])
-    AddonGUI(mw)
+    GUIFromBase(mw)
 
 
 # TODO: get highlights from readwise
