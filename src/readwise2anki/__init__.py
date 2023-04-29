@@ -35,9 +35,29 @@ class AddonGUI(QMainWindow):
         # Create a grid layout
         grid = QGridLayout()
 
-        # Label to display the highlight
-        highlight = QLabel("Test text")
-        grid.addWidget(highlight, 0, 0)
+        # Label to display the current highlight you are on
+        highlight_num = QLabel("1 / 20")
+        grid.addWidget(highlight_num, 0, 0)
+
+        # Label to show which specific source the highlight came from(name of book, article, etc.)
+        source = QLabel("Introduction to Algorithms")
+        grid.addWidget(source, 1, 0)
+
+        # Label to show which number highlight from the current source you are on
+        source_num = QLabel("1 / 2")
+        grid.addWidget(source_num, 1, 1)
+
+        # Label to show the actual highlight itself
+        highlight = QLabel("Here is an example highlight")
+        grid.addWidget(highlight, 2, 0)
+
+        # Textbox for creating the front of a card
+        front = QTextEdit()
+        grid.addWidget(front, 3, 0)
+
+        # Textbox for creating the back of the card
+        back = QTextEdit()
+        grid.addWidget(back, 4, 0)
 
         # Create a container to hold the layout
         container = QWidget()
@@ -72,3 +92,5 @@ qconnect(action.triggered, menu)
 
 # and add it to the tools menu
 mw.form.menuTools.addAction(action)
+
+# TODO: Make a user option to autocopy the current highlight to the clipboard
