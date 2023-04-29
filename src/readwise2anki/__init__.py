@@ -112,7 +112,6 @@ def menu() -> None:
 
 # TODO: get highlights from readwise
 
-
 # create a new menu item, "Readwise Import"
 action = QAction("Import from Readwise", mw)
 
