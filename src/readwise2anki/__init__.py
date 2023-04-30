@@ -31,35 +31,75 @@ class GUIFromScratch(QMainWindow):
         self.setWindowTitle("Import from Readwise")
 
         # Set the window's dimensions
-        self.setMinimumWidth(750)
-        self.setMinimumHeight(750)
+        self.setMinimumWidth(600)
+        self.setMinimumHeight(450)
 
         # Create a grid layout
         grid = QGridLayout()
 
-        # Label to display the current highlight you are on
-        highlight_num = QLabel("1 / 20")
-        grid.addWidget(highlight_num, 0, 0)
+        # Fonts
+        title_font = QFont("Arial", 24, QFont.Bold)
 
-        # Label to show which specific source the highlight came from(name of book, article, etc.)
-        source = QLabel("Introduction to Algorithms")
-        grid.addWidget(source, 1, 0)
+        # CREATE THE WIDGETS
+        # Highlight widgets
+        highlight_label = QLabel("Highlight")
+        highlight_label.setFont(title_font)
+        source_label = QLabel("Source: Book Title")
+        highlight_content = QLabel("Here is a highlight")
+        previous_highlight = QPushButton("Previous")
+        highlight_number = QLabel("1 / 20")
+        next_highlight = QPushButton("Next")
 
-        # Label to show which number highlight from the current source you are on
-        source_num = QLabel("1 / 2")
-        grid.addWidget(source_num, 1, 1)
+        # Card Type Widgets
+        type_label = QLabel("Type")
+        type_button = QPushButton("Basic")
 
-        # Label to show the actual highlight itself
-        highlight = QLabel("Here is an example highlight")
-        grid.addWidget(highlight, 2, 0)
+        # Deck Widgets
+        deck_label = QLabel("Deck")
+        deck_button = QPushButton("Test")
 
-        # Textbox for creating the front of a card
-        front = QTextEdit()
-        grid.addWidget(front, 3, 0)
+        # Card Input
+        front_label = QLabel("Front")
+        front_input = QTextEdit("")
+        back_label = QLabel("Front")
+        back_input = QTextEdit("")
+        tags_label = QLabel("Tags")
+        tags_input = QTextEdit("Tags")
 
-        # Textbox for creating the back of the card
-        back = QTextEdit()
-        grid.addWidget(back, 4, 0)
+        # Bottom Buttons
+        help_button = QPushButton("Help")
+        add_button = QPushButton("Add")
+        close_button = QPushButton("Close")
+
+        # PLACE THE WIDGETS
+        # Highlight widgets
+        grid.addWidget(highlight_label, 0, 0)
+        grid.addWidget(source_label, 1, 0)
+        grid.addWidget(highlight_content, 2, 0)
+        grid.addWidget(previous_highlight, 3, 0)
+        grid.addWidget(highlight_number, 3, 1)
+        grid.addWidget(next_highlight, 3, 2)
+
+        # Card Type Widgets
+        grid.addWidget(type_label, 4, 0)
+        grid.addWidget(type_button, 4, 1)
+
+        # Deck Widgets
+        grid.addWidget(deck_label, 4, 2)
+        grid.addWidget(deck_button, 4, 3)
+
+        # Card Input
+        grid.addWidget(front_label, 5, 0)
+        grid.addWidget(front_input, 6, 0, 1, 4)
+        grid.addWidget(back_label, 7, 0)
+        grid.addWidget(back_input, 8, 0, 1, 4)
+        grid.addWidget(tags_label, 9, 0)
+        grid.addWidget(tags_input, 10, 0, 1, 4)
+
+        # Bottom Buttons
+        grid.addWidget(help_button, 11, 0)
+        grid.addWidget(add_button, 11, 1)
+        grid.addWidget(close_button, 11, 2)
 
         # Create a container to hold the layout
         container = QWidget()
@@ -86,6 +126,7 @@ class GUIFromBase(AddCards):
 
         # Get the current layout from the AddCards window
         layout = self.layout()
+        print(layout)
 
         # Label to display the current highlight you are on
         highlight_num = QLabel("1 / 20")
@@ -107,7 +148,8 @@ def menu() -> None:
     # sel = readwise.fetch_from_export_api()
 
     # showInfo(data[0][0])
-    GUIFromBase(mw)
+    # GUIFromBase(mw)
+    GUIFromScratch(mw)
 
 
 # TODO: get highlights from readwise
