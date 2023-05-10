@@ -8,12 +8,17 @@ from aqt.utils import showInfo, qconnect
 # import all of the Qt GUI library
 from aqt.qt import *
 
+# Import readwise module
 from . import readwise
 
 
 class Highlights:
     def __init__(self):
-        self.highlights = None
+        self.highlight = None
+
+    def get_current_highlight(self):
+        """Get the current highlight and its associated information"""
+        pass
 
 
 # This is a reference I found useful for PyQt6: https://www.pythonguis.com/pyqt6-tutorial/
@@ -22,8 +27,16 @@ class Highlights:
 class GUIFromScratch(QMainWindow):
     """Class that acts as the main GUI for the addon"""
 
-    # Currently this is kept here as reference. Attempting to work on GUIFromBase
     def __init__(self, mw: AnkiQt) -> None:
+        # Fetch the data from Readwise
+        self.account = readwise.Readwise()
+        self.data = self.account.data
+        self.highlight_number = self.account.total_highlights
+
+        # Save the first highlight's information
+        source = "Source"
+        highlight = "Highlight"
+
         # Calls the QWidget constructor and pass the main window as the parent
         QWidget.__init__(self, mw)
 
@@ -38,16 +51,17 @@ class GUIFromScratch(QMainWindow):
         grid = QGridLayout()
 
         # Fonts
-        title_font = QFont("Arial", 24, QFont.Bold)
+        title_font = QFont("Arial", 24, QFont.Weight.Bold)
 
         # CREATE THE WIDGETS
         # Highlight widgets
         highlight_label = QLabel("Highlight")
         highlight_label.setFont(title_font)
-        source_label = QLabel("Source: Book Title")
-        highlight_content = QLabel("Here is a highlight")
+        source_label = QLabel(f"Source: {source}")
+
+        highlight_content = QLabel(highlight)
         previous_highlight = QPushButton("Previous")
-        highlight_number = QLabel("1 / 20")
+        highlight_number = QLabel(f"1 / {self.highlight_number}")
         next_highlight = QPushButton("Next")
 
         # Card Type Widgets
@@ -61,7 +75,7 @@ class GUIFromScratch(QMainWindow):
         # Card Input
         front_label = QLabel("Front")
         front_input = QTextEdit("")
-        back_label = QLabel("Front")
+        back_label = QLabel("Back")
         back_input = QTextEdit("")
         tags_label = QLabel("Tags")
         tags_input = QTextEdit("Tags")
@@ -118,6 +132,8 @@ class GUIFromScratch(QMainWindow):
 class GUIFromBase(AddCards):
     """Class that acts as the main GUI for the addon that adds to the builtin AddCards window"""
 
+    # Currently this is kept here as reference. Attempting to work on GUIFromScratch
+
     # TODO: Try to position the new UI elements above the built-in elements
 
     def __init__(self, mw: AnkiQt) -> None:
@@ -126,7 +142,6 @@ class GUIFromBase(AddCards):
 
         # Get the current layout from the AddCards window
         layout = self.layout()
-        print(layout)
 
         # Label to display the current highlight you are on
         highlight_num = QLabel("1 / 20")
