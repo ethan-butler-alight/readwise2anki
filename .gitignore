@@ -1,4 +1,4 @@
 *.env
 
 /*__pycache__
-/*._mypy_cache
+/*.mypy_cache
