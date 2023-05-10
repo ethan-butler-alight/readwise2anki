@@ -32,10 +32,15 @@ class GUIFromScratch(QMainWindow):
         self.account = readwise.Readwise()
         self.data = self.account.data
         self.highlight_number = self.account.total_highlights
+        self.current_source_number = 0
+        self.current_highlight_number = 0
 
         # Save the first highlight's information
-        source = "Source"
-        highlight = "Highlight"
+        source = self.account.get_source(self.current_source_number)
+
+        highlight = self.account.get_highlight(
+            self.current_source_number, self.current_highlight_number
+        )
 
         # Calls the QWidget constructor and pass the main window as the parent
         QWidget.__init__(self, mw)
@@ -74,7 +79,7 @@ class GUIFromScratch(QMainWindow):
 
         # Card Input
         front_label = QLabel("Front")
-        front_input = QTextEdit("")
+        front_input = QTextEdit(highlight)
         back_label = QLabel("Back")
         back_input = QTextEdit("")
         tags_label = QLabel("Tags")

@@ -44,16 +44,15 @@ class Readwise:
             if not next_page_cursor:
                 break
 
-        self.data = full_data
+        # Save only books with highlights
+        self.data = [book for book in full_data if book["highlights"]]
 
     def calc_num_highlights(self):
         # """Calculate the total number of highlights from the data/"""
         books = []
         if self.data is not None:
-            all_books = self.data
-
             # print highlights
-            for book in all_books:
+            for book in self.data:
                 if book["highlights"]:
                     # print(book["title"])
                     self.total_books += 1
@@ -72,6 +71,15 @@ class Readwise:
         else:
             print("You need to retrieve highlights from the API first")
 
+    def get_source(self, source_number):
+        """Given a source number, return the source's title"""
+        return self.data[source_number]["title"]
+
+    def get_highlight(self, source_number, highlight_number):
+        """Given a source number and highlight number, return the highlight"""
+
+        return self.data[source_number]["highlights"][highlight_number]["text"]
+
 
 def main():
     """Main function used for testing"""
@@ -81,6 +89,8 @@ def main():
     # Pretty print data
     pp = pprint.PrettyPrinter(indent=4)
     # pp.pprint(account.data)
+    print(account.get_source(0))
+    print(account.get_highlight(0, 0))
 
     # TODO: Implement this after you properly create cards from all data
     # # Later, if you want to get new highlights updated since your last fetch of allData, do this.
