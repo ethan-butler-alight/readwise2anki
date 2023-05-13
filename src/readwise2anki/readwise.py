@@ -71,14 +71,36 @@ class Readwise:
         else:
             print("You need to retrieve highlights from the API first")
 
+    def get_source_and_highlight(self, highlight_number):
+        """Given a highlight number, return the source's title and highlight
+        A highlight number is the ID which represents the current highlight in the collection of all highlights.
+        """
+        if self.data is not None:
+            highlight_count = 0
+            source_count = 0
+            source_highlight_count = 0
+
+            for source in self.data:
+                if source["highlights"]:
+                    if highlight_count == highlight_number:
+                        title = source["title"]
+                        highlight = source["highlights"][source_highlight_count]["text"]
+                        return title, highlight
+
+                    highlight_count += 1
+                    source_highlight_count += 1
+
+                source_highlight_count = 0
+                source_count += 1
+
     def get_source(self, source_number):
         """Given a source number, return the source's title"""
         return self.data[source_number]["title"]
 
-    def get_highlight(self, source_number, highlight_number):
-        """Given a source number and highlight number, return the highlight"""
+    def get_highlight(self, source_number, source_highlight_number):
+        """Given a source number and a source highlight number, return the highlight"""
 
-        return self.data[source_number]["highlights"][highlight_number]["text"]
+        return self.data[source_number]["highlights"][source_highlight_number]["text"]
 
 
 def main():

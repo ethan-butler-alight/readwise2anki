@@ -31,15 +31,12 @@ class GUIFromScratch(QMainWindow):
         # Fetch the data from Readwise
         self.account = readwise.Readwise()
         self.data = self.account.data
-        self.highlight_number = self.account.total_highlights
-        self.current_source_number = 0
         self.current_highlight_number = 0
+        self.total_highlights = self.account.total_highlights
 
         # Save the first highlight's information
-        source = self.account.get_source(self.current_source_number)
-
-        highlight = self.account.get_highlight(
-            self.current_source_number, self.current_highlight_number
+        source, highlight = self.account.get_source_and_highlight(
+            self.current_highlight_number
         )
 
         # Calls the QWidget constructor and pass the main window as the parent
@@ -60,18 +57,19 @@ class GUIFromScratch(QMainWindow):
 
         # CREATE THE WIDGETS
         # Highlight widgets
-        highlight_label = QLabel("Highlight")
-        highlight_label.setFont(title_font)
-        source_label = QLabel(f"Source: {source}")
-
-        highlight_content = QLabel(highlight)
+        self.highlight_label = QLabel("Highlight")
+        self.highlight_label.setFont(title_font)
+        self.source_label = QLabel(f"Source: {source}")
+        self.highlight_content = QLabel(highlight)
         previous_highlight = QPushButton("Previous")
-        highlight_number = QLabel(f"1 / {self.highlight_number}")
+        highlight_number = QLabel(f"1 / {self.total_highlights}")
         next_highlight = QPushButton("Next")
+        next_highlight.clicked.connect(self.display_next_highlight)
 
         # Card Type Widgets
-        type_label = QLabel("Type")
-        type_button = QPushButton("Basic")
+        # TODO: Add these back later
+        # type_label = QLabel("Type")
+        # type_button = QPushButton("Basic")
 
         # Deck Widgets
         deck_label = QLabel("Deck")
@@ -92,20 +90,21 @@ class GUIFromScratch(QMainWindow):
 
         # PLACE THE WIDGETS
         # Highlight widgets
-        grid.addWidget(highlight_label, 0, 0)
-        grid.addWidget(source_label, 1, 0)
-        grid.addWidget(highlight_content, 2, 0)
+        grid.addWidget(self.highlight_label, 0, 0)
+        grid.addWidget(self.source_label, 1, 0)
+        grid.addWidget(self.highlight_content, 2, 0)
         grid.addWidget(previous_highlight, 3, 0)
         grid.addWidget(highlight_number, 3, 1)
         grid.addWidget(next_highlight, 3, 2)
 
         # Card Type Widgets
-        grid.addWidget(type_label, 4, 0)
-        grid.addWidget(type_button, 4, 1)
+        # TODO: Add these back later
+        # grid.addWidget(type_label, 4, 0)
+        # grid.addWidget(type_button, 4, 1)
 
         # Deck Widgets
-        grid.addWidget(deck_label, 4, 2)
-        grid.addWidget(deck_button, 4, 3)
+        grid.addWidget(deck_label, 4, 0)
+        grid.addWidget(deck_button, 4, 1)
 
         # Card Input
         grid.addWidget(front_label, 5, 0)
@@ -132,6 +131,20 @@ class GUIFromScratch(QMainWindow):
 
         # Focus the window
         self.setFocus()
+
+    def display_next_highlight(self):
+        """The next highlight gets displayed on the GUI"""
+        # Source and highlight numbers
+        self.current_highlight_number += 1
+
+        # Get the source and highlight
+        source, highlight = self.account.get_source_and_highlight(
+            self.current_highlight_number
+        )
+
+        # Update the GUI
+        self.source_label.setText(f"Source: {source}")
+        self.highlight_content.setText(highlight)
 
 
 class GUIFromBase(AddCards):
@@ -182,5 +195,8 @@ qconnect(action.triggered, menu)
 
 # and add it to the tools menu
 mw.form.menuTools.addAction(action)
+
+#
+
 
 # TODO: Make a user option to autocopy the current highlight to the clipboard
