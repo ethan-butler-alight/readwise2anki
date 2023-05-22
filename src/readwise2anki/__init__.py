@@ -60,7 +60,6 @@ class GUIFromScratch(QMainWindow):
         self.highlight_label = QLabel("Highlight")
         self.highlight_label.setFont(title_font)
         self.source_label = QLabel(f"Source: {source}")
-        self.highlight_content = QLabel(highlight)
 
         self.previous_highlight = QPushButton("Previous")
         self.previous_highlight.clicked.connect(self.display_previous_highlight)
@@ -89,14 +88,18 @@ class GUIFromScratch(QMainWindow):
 
         # Bottom Buttons
         self.help_button = QPushButton("Help")
+        self.help_button.clicked.connect(self.open_help)
+
         self.add_button = QPushButton("Add")
+        self.add_button.clicked.connect(self.add_card)
+
         self.close_button = QPushButton("Close")
+        self.close_button.clicked.connect(self.close_addon)
 
         # PLACE THE WIDGETS
         # Highlight widgets
         grid.addWidget(self.highlight_label, 0, 0)
-        grid.addWidget(self.source_label, 1, 0)
-        grid.addWidget(self.highlight_content, 2, 0)
+        grid.addWidget(self.source_label, 2, 0)
         grid.addWidget(self.previous_highlight, 3, 0)
         grid.addWidget(self.highlight_number, 3, 1)
         grid.addWidget(self.next_highlight, 3, 2)
@@ -149,7 +152,6 @@ class GUIFromScratch(QMainWindow):
 
             # Update the GUI
             self.source_label.setText(f"Source: {source}")
-            self.highlight_content.setText(highlight)
             self.highlight_number.setText(
                 f"{self.current_highlight_number} / {self.total_highlights}"
             )
@@ -168,11 +170,24 @@ class GUIFromScratch(QMainWindow):
 
             # Update the GUI
             self.source_label.setText(f"Source: {source}")
-            self.highlight_content.setText(highlight)
             self.highlight_number.setText(
                 f"{self.current_highlight_number} / {self.total_highlights}"
             )
             self.front_input.setText(highlight)
+
+    def change_deck(self):
+        pass
+
+    def open_help(self):
+        pass
+
+    def add_card(self):
+        """Add the current card to the currently selected deck"""
+        pass
+
+    def close_addon(self):
+        """Close the window of the addon"""
+        self.close()
 
 
 class GUIFromBase(AddCards):
