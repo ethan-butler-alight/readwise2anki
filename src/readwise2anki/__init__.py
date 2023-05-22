@@ -31,12 +31,12 @@ class GUIFromScratch(QMainWindow):
         # Fetch the data from Readwise
         self.account = readwise.Readwise()
         self.data = self.account.data
-        self.current_highlight_number = 0
+        self.current_highlight_number = 1
         self.total_highlights = self.account.total_highlights
 
         # Save the first highlight's information
         source, highlight = self.account.get_source_and_highlight(
-            self.current_highlight_number
+            self.current_highlight_number - 1
         )
 
         # Calls the QWidget constructor and pass the main window as the parent
@@ -141,13 +141,13 @@ class GUIFromScratch(QMainWindow):
 
     def display_previous_highlight(self):
         """The next highlight gets displayed on the GUI"""
-        if self.current_highlight_number > 0:
+        if self.current_highlight_number > 1:
             # Highlight number
             self.current_highlight_number -= 1
 
             # Get the source and highlight
             source, highlight = self.account.get_source_and_highlight(
-                self.current_highlight_number
+                self.current_highlight_number - 1
             )
 
             # Update the GUI
@@ -165,7 +165,7 @@ class GUIFromScratch(QMainWindow):
 
             # Get the source and highlight
             source, highlight = self.account.get_source_and_highlight(
-                self.current_highlight_number
+                self.current_highlight_number - 1
             )
 
             # Update the GUI
@@ -176,9 +176,11 @@ class GUIFromScratch(QMainWindow):
             self.front_input.setText(highlight)
 
     def change_deck(self):
+        """Change the deck the current card will be added to"""
         pass
 
     def open_help(self):
+        """Open the addon help page in their browser"""
         pass
 
     def add_card(self):
