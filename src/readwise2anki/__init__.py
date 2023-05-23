@@ -11,16 +11,6 @@ from aqt.qt import *
 # Import readwise module
 from . import readwise
 
-
-class Highlights:
-    def __init__(self):
-        self.highlight = None
-
-    def get_current_highlight(self):
-        """Get the current highlight and its associated information"""
-        pass
-
-
 # This is a reference I found useful for PyQt6: https://www.pythonguis.com/pyqt6-tutorial/
 
 
@@ -33,6 +23,8 @@ class GUIFromScratch(QMainWindow):
         self.data = self.account.data
         self.current_highlight_number = 1
         self.total_highlights = self.account.total_highlights
+        self.model_name = "Basic"
+        self.deck_name = "test"
 
         # Save the first highlight's information
         source, highlight = self.account.get_source_and_highlight(
@@ -185,7 +177,19 @@ class GUIFromScratch(QMainWindow):
 
     def add_card(self):
         """Add the current card to the currently selected deck"""
-        pass
+        col = mw.col
+        model = col.models.by_name(self.model_name)
+        deck = col.decks.by_name(self.deck_name)
+        col.decks.select(deck["id"])
+        col.decks.current()["mid"] = model["id"]
+
+        note = col.newNote()
+
+        note.fields[0] = self.front_input.toPlainText()
+        note.fields[1] = self.back_input.toPlainText()
+        col.add_note(note, deck["id"])
+
+        col.save()
 
     def close_addon(self):
         """Close the window of the addon"""
