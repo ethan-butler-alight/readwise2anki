@@ -11,7 +11,11 @@ from aqt.qt import *
 # Import readwise module
 from . import readwise
 
-# This is a reference I found useful for PyQt6: https://www.pythonguis.com/pyqt6-tutorial/
+# Here are some resources I found useful for this project
+# PyQt6: https://www.pythonguis.com/pyqt6-tutorial/
+# Anki:
+# https://www.juliensobczak.com/write/2020/12/26/anki-scripting-for-non-programmers.html
+# https://addon-docs.ankiweb.net/
 
 
 class GUIFromScratch(QMainWindow):
@@ -169,6 +173,7 @@ class GUIFromScratch(QMainWindow):
 
     def change_deck(self):
         """Change the deck the current card will be added to"""
+
         pass
 
     def open_help(self):
@@ -178,18 +183,30 @@ class GUIFromScratch(QMainWindow):
     def add_card(self):
         """Add the current card to the currently selected deck"""
         col = mw.col
+
+        # Select the model to use
         model = col.models.by_name(self.model_name)
+
+        # Select the deck to use
         deck = col.decks.by_name(self.deck_name)
         col.decks.select(deck["id"])
         col.decks.current()["mid"] = model["id"]
 
+        # Create a new note and set its fields
         note = col.newNote()
-
         note.fields[0] = self.front_input.toPlainText()
         note.fields[1] = self.back_input.toPlainText()
+
+        # Add the note to the deck
         col.add_note(note, deck["id"])
 
+        # Save the changes to the database
         col.save()
+
+        # TODO: Display a success message
+
+        # Go to next highlight
+        self.display_next_highlight()
 
     def close_addon(self):
         """Close the window of the addon"""
