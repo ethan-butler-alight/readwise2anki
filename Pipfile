@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 requests = "*"
-python-decouple = "*"
 aqt = {extras = ["qt6"], version = "*"}
 
 [dev-packages]

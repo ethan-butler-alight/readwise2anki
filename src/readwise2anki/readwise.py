@@ -3,14 +3,12 @@
 import datetime
 import pprint
 import requests
-from decouple import config  # type: ignore
-
-# TODO: Implement API key handling via an addon config instead of using decouple. See: https://addon-docs.ankiweb.net/addon-config.html
-
+from aqt import mw
 
 class Readwise:
     def __init__(self):
-        self.token = config("API_KEY")
+        config = mw.addonManager.getConfig(__name__)
+        self.token = config["API_KEY"]
         self.data = None
         self.highlights = None
         self.current_highlight = None
