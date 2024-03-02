@@ -18,6 +18,6 @@
 }
 ```
 
-5. Copy `src\readwise2anki` to your Anki addons folder
+5. Create a symlink pointing `src\readwise2anki` to your Anki addons folder
 
 6. `python runanki.py`
